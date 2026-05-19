@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Registration - Achievement Management System</title>
   <link rel="stylesheet" href="{{ url_for('static', filename = 'styles.css') }}" />
-  <script src="{{ url_for('static', filename = 'script.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'script.js') }}" defer></script>
   <style>
     /* =========================================
        Modern Auth Layout Overrides
@@ -214,6 +214,34 @@
     .auth-header p {
       color: var(--text-secondary);
       font-size: 1rem;
+    }
+
+    .error-message {
+      background: rgba(255, 28, 28, 0.1);
+      border: 1px solid rgba(255, 28, 28, 0.2);
+      color: var(--primary-color);
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+
+    .success-message {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
     }
 
     .auth-form .form-grid {
@@ -546,6 +574,27 @@
           <h1>Create an Account</h1>
           <p>Please provide your details to register for the student portal.</p>
         </div>
+
+        {% if error %}
+        <div class="error-message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {{ error }}
+        </div>
+        {% endif %}
+
+        {% if success %}
+        <div class="success-message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          {{ success }}
+        </div>
+        {% endif %}
 
         <form action="/student_new" method="POST" class="auth-form" onsubmit="return validatePasswords(event)">
           <div class="form-grid">

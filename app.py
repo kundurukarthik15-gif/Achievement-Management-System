@@ -30,6 +30,7 @@ DEFAULT_FIREBASE_CONFIG = {
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(16))
+app.permanent_session_lifetime = timedelta(days=30)
 
 # csrf = CSRFProtect(app)
 
@@ -1413,7 +1414,6 @@ def student():
             
             if request.form.get('remember'):
                 session.permanent = True
-                app.permanent_session_lifetime = timedelta(days=30)
                 
             return redirect(url_for("student-dashboard"))
         else:
@@ -1444,6 +1444,10 @@ def teacher():
             session["teacher_id"] = teacher_data[1]
             session["teacher_name"] = teacher_data[0]
             session["teacher_dept"] = teacher_data[6]
+            
+            if request.form.get('remember'):
+                session.permanent = True
+                
             return redirect(url_for("teacher-dashboard"))
         else:
             return render_template("teacher.html", error="Invalid credentials. Please try again.")
